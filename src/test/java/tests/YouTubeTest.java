@@ -1,11 +1,10 @@
 package tests;
 
+import org.openqa.selenium.By;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
-import io.appium.java_client.AppiumBy;
-import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.AfterClass;
@@ -13,6 +12,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import utils.GestureActions;
 import utils.FileUtilsHelper;
+import pages.youtubeLocators;
 
 import java.net.URL;
 import java.time.Duration;
@@ -46,23 +46,45 @@ public class YouTubeTest {
     @Test
     public void searchAndScrollWithGestures() throws Exception {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-        Thread.sleep(5000);
+        Thread.sleep(8000); // Allow app to fully load (YouTube can be slow on cold start)
 
         // Handle permission popup
         try {
-            driver.findElement(By.id("com.android.permissioncontroller:id/permission_allow_button")).click();
-            Thread.sleep(2000);
+            driver.findElement(youtubeLocators.permission_allow_button).click();
+            Thread.sleep(3000);
         } catch (Exception e) {
             System.out.println("No permission popup");
         }
 
-        // Open Search
-        wait.until(ExpectedConditions.elementToBeClickable(AppiumBy.accessibilityId("Search"))).click();
+        // Open Search - try multiple locators (YouTube UI varies by version/region)
+        boolean searchOpened = false;
+        By[] searchLocators = {
+                youtubeLocators.search_button_accessibility_id,
+                youtubeLocators.search_edit_text_accessibility_id,
+                youtubeLocators.search_ui_selector,
+                youtubeLocators.search_button,
+                youtubeLocators.search_edit_text
+        };
+        for (By locator : searchLocators) {
+            try {
+                wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
+                searchOpened = true;
+                break;
+            } catch (Exception e) {
+                // Try next locator
+            }
+        }
+        if (!searchOpened) {
+            throw new RuntimeException("Could not find or click search element. Try: adb shell uiautomator dump /sdcard/window_dump.xml && adb pull /sdcard/window_dump.xml to inspect UI.");
+        }
         Thread.sleep(3000);
 
-        // Enter search
-        driver.findElement(By.id("com.google.android.youtube:id/search_edit_text"))
-                .sendKeys("Mobile Automation Course");
+        // Enter search (try resource ID first, then UiSelector)
+        try {
+            driver.findElement(youtubeLocators.search_edit_text).sendKeys("Mobile Automation Course");
+        } catch (Exception e) {
+            driver.findElement(youtubeLocators.search_edit_text_ui_selector).sendKeys("Mobile Automation Course");
+        }
         Thread.sleep(2000);
         driver.pressKey(new KeyEvent(AndroidKey.ENTER));
         Thread.sleep(5000);
@@ -73,9 +95,6 @@ public class YouTubeTest {
             Thread.sleep(1500);
         }
 
-        // Take screenshot and save to file
-        String savedPath = FileUtilsHelper.captureScreenshot(driver, "youtube_search");
-        System.out.println("Screenshot saved: " + savedPath);
     }
 
     @Test(dependsOnMethods = "searchAndScrollWithGestures")

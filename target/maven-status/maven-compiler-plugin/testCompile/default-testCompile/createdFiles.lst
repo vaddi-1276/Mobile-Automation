@@ -1,5 +1,7 @@
+tests/Mobile_Automation_Search_in_youtube.class
+pages/youtubeLocators.class
 tests/Search_in_Google_Mobile_Automation_Search.class
+pages/ChromeLocators.class
 tests/YouTubeTest.class
 utils/GestureActions.class
-tests/FirstClass.class
 utils/FileUtilsHelper.class

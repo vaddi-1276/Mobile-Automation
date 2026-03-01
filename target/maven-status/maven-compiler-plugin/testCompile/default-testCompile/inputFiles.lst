@@ -1,4 +1,6 @@
-/Users/NagaPratap/Downloads/Mobile Automation/src/test/java/tests/FirstClass.java
+/Users/NagaPratap/Downloads/Mobile Automation/src/test/java/pages/ChromeLocators.java
+/Users/NagaPratap/Downloads/Mobile Automation/src/test/java/pages/youtubeLocators.java
+/Users/NagaPratap/Downloads/Mobile Automation/src/test/java/tests/Mobile_Automation_Search_in_youtube.java
 /Users/NagaPratap/Downloads/Mobile Automation/src/test/java/tests/Search_in_Google_Mobile_Automation_Search.java
 /Users/NagaPratap/Downloads/Mobile Automation/src/test/java/tests/YouTubeTest.java
 /Users/NagaPratap/Downloads/Mobile Automation/src/test/java/utils/FileUtilsHelper.java

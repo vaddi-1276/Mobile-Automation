@@ -32,14 +32,8 @@ public class Mobile_Automation_Search_in_youtube {
         options.setAutoGrantPermissions(true);
         options.setNewCommandTimeout(Duration.ofSeconds(300));
 
-        // Use YouTube.apk from apks folder if available
-        String apkPath = FileUtilsHelper.getApkPath("YouTube.apk");
-        if (apkPath != null) {
-            options.setApp(apkPath);
-        } else {
-            options.setAppPackage("com.google.android.youtube");
-            options.setAppActivity("com.google.android.apps.youtube.app.WatchWhileActivity");
-        }
+        options.setAppPackage("com.google.android.youtube");
+        options.setAppActivity("com.google.android.apps.youtube.app.WatchWhileActivity");
 
         driver = new AndroidDriver(new URL("http://127.0.0.1:4723"), options);
         gestures = new GestureActions(driver);
@@ -84,9 +78,6 @@ public class Mobile_Automation_Search_in_youtube {
         gestures.scrollDown(2);
         Thread.sleep(2000);
 
-        // Save screenshot to file
-        String path = FileUtilsHelper.captureScreenshot(driver, "youtube_search");
-        System.out.println("Screenshot saved: " + path);
     }
 
     @AfterClass

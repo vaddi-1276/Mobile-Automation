@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 import utils.GestureActions;
 import utils.FileUtilsHelper;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import pages.locators;
+import pages.ChromeLocators;
 
 import java.net.URL;
 import java.time.Duration;
@@ -45,21 +45,20 @@ public class Search_in_Google_Mobile_Automation_Search {
 
         // Dismiss first-run dialogs (terms, sign-in)
         try {
-            driver.findElement(AppiumBy.id("com.android.chrome:id/terms_accept")).click();
+            driver.findElement(ChromeLocators.terms_accept).click();
             Thread.sleep(1000);
         } catch (Exception ignored) {}
         try {
-            driver.findElement(AppiumBy.id("com.android.chrome:id/signin_fre_dismiss_button")).click();
+            driver.findElement(ChromeLocators.signin_fre_dismiss_button).click();
             Thread.sleep(1000);
         } catch (Exception ignored) {}
 
         // Dismiss "Enhanced ad privacy" dialog - click "Got it"
         try {
-            driver.findElement(AppiumBy.id("com.android.chrome:id/ack_button")).click();
+            driver.findElement(ChromeLocators.ack_button).click();
         } catch (Exception e1) {
             try {
-                driver.findElement(AppiumBy.androidUIAutomator(
-                    "new UiSelector().text(\"Got it\")")).click();
+                driver.findElement(ChromeLocators.got_it_button).click();
             } catch (Exception ignored) {}
         }
         Thread.sleep(1000);
@@ -68,9 +67,9 @@ public class Search_in_Google_Mobile_Automation_Search {
         // Click search_box_text to open omnibox, then type into url_bar.
         var searchBox = wait.until(d -> {
             try {
-                return d.findElement(locators.search_box_text);
+                return d.findElement(ChromeLocators.search_box_text);
             } catch (Exception e) {
-                return d.findElement(locators.url_bar);
+                return d.findElement(ChromeLocators.url_bar);
             }
         });
         searchBox.click();
@@ -79,9 +78,9 @@ public class Search_in_Google_Mobile_Automation_Search {
         // Type into url_bar (the actual EditText) - search_box_text cannot accept sendKeys
         var urlBar = wait.until(d -> {
             try {
-                return d.findElement(locators.url_bar);
+                return d.findElement(ChromeLocators.url_bar);
             } catch (Exception e) {
-                return d.findElement(locators.url_bar);
+                return d.findElement(ChromeLocators.url_bar);
             }
         });
         urlBar.sendKeys("Mobile Automation Course");
