@@ -75,7 +75,7 @@ public class Mobile_Automation_Search_in_youtube {
         Thread.sleep(5000);
 
         // Gesture: Scroll down through results
-        gestures.scrollDown(2);
+        gestures.scrollDown(3);
         Thread.sleep(2000);
 
     }

@@ -109,7 +109,7 @@ public class YouTubeTest {
 
         // Swipe down - scroll up
         gestures.swipeDown();
-        Thread.sleep(1000);
+        Thread.sleep(2000);
     }
 
     @AfterClass
