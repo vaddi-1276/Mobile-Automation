@@ -31,6 +31,8 @@ public class Mobile_Automation_Search_in_youtube {
         options.setAutomationName("UiAutomator2");
         options.setAutoGrantPermissions(true);
         options.setNewCommandTimeout(Duration.ofSeconds(300));
+        options.setAdbExecTimeout(Duration.ofSeconds(120));
+        options.setAppWaitDuration(Duration.ofSeconds(60000));
 
         options.setAppPackage("com.google.android.youtube");
         options.setAppActivity("com.google.android.apps.youtube.app.WatchWhileActivity");

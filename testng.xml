@@ -3,8 +3,9 @@
 <suite name="MobileAutomationSuite">
     <test name="Mobile Tests">
         <classes>
-            <class name="tests.FirstClass"/>
             <class name="tests.YouTubeTest"/>
+            <class name="tests.Search_in_Google_Mobile_Automation_Search"/>
+            <class name="tests.Mobile_Automation_Search_in_youtube"/>
         </classes>
     </test>
 </suite>

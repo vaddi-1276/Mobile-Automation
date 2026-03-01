@@ -29,7 +29,8 @@ public class Search_in_Google_Mobile_Automation_Search {
         options.setAutomationName("UiAutomator2");
         options.setAutoGrantPermissions(true);
         options.setNewCommandTimeout(Duration.ofSeconds(300));
-
+        options.setAdbExecTimeout(Duration.ofSeconds(120));
+options.setAppWaitDuration(Duration.ofSeconds(60000));
             options.setAppPackage("com.android.chrome");
             options.setAppActivity("com.google.android.apps.chrome.Main");
         
