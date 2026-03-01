@@ -167,6 +167,7 @@ public class GestureActions {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             throw new RuntimeException("Interrupted during gesture", e);
+            
         }
     }
 }

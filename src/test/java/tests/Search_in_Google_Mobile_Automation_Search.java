@@ -73,7 +73,7 @@ public class Search_in_Google_Mobile_Automation_Search {
             }
         });
         searchBox.click();
-        Thread.sleep(500);
+        Thread.sleep(1000);
 
         // Type into url_bar (the actual EditText) - search_box_text cannot accept sendKeys
         var urlBar = wait.until(d -> {
