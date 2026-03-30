@@ -16,11 +16,17 @@ import utils.FileUtilsHelper;
 
 import java.net.URL;
 import java.time.Duration;
+import java.util.Objects;
 
 public class Mobile_Automation_Search_in_youtube {
 
     AndroidDriver driver;
     GestureActions gestures;
+
+    @SuppressWarnings("null")
+    private static void clickWhenClickable(WebDriverWait wait, By locator) {
+        wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
+    }
 
     @BeforeClass
     public void setup() throws Exception {
@@ -43,11 +49,13 @@ public class Mobile_Automation_Search_in_youtube {
 
     @Test
     public void searchMobileAutomationCourse() throws Exception {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+        WebDriverWait wait = new WebDriverWait(
+                Objects.requireNonNull(driver, "driver"),
+                Objects.requireNonNull(Duration.ofSeconds(60)));
         Thread.sleep(5000);
 
         try {
-            wait.until(ExpectedConditions.elementToBeClickable(AppiumBy.accessibilityId("YouTube"))).click();
+            clickWhenClickable(wait, AppiumBy.accessibilityId("YouTube"));
         } catch (Exception e) {
             // App may already be opened
         }
@@ -62,9 +70,9 @@ public class Mobile_Automation_Search_in_youtube {
         Thread.sleep(3000);
 
         try {
-            wait.until(ExpectedConditions.elementToBeClickable(AppiumBy.accessibilityId("Search YouTube"))).click();
+            clickWhenClickable(wait, AppiumBy.accessibilityId("Search YouTube"));
         } catch (Exception e) {
-            wait.until(ExpectedConditions.elementToBeClickable(AppiumBy.accessibilityId("Search"))).click();
+            clickWhenClickable(wait, AppiumBy.accessibilityId("Search"));
         }
 
         Thread.sleep(3000);

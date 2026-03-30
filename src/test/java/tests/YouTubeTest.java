@@ -16,6 +16,7 @@ import pages.youtubeLocators;
 
 import java.net.URL;
 import java.time.Duration;
+import java.util.Objects;
 
 /**
  * YouTube.apk automation with gesture actions and file operations.
@@ -25,6 +26,11 @@ public class YouTubeTest {
 
     AndroidDriver driver;
     GestureActions gestures;
+
+    @SuppressWarnings("null")
+    private static void clickWhenClickable(WebDriverWait wait, By locator) {
+        wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
+    }
 
     @BeforeClass
     public void setup() throws Exception {
@@ -46,7 +52,9 @@ public class YouTubeTest {
 
     @Test
     public void searchAndScrollWithGestures() throws Exception {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        WebDriverWait wait = new WebDriverWait(
+                Objects.requireNonNull(driver, "driver"),
+                Objects.requireNonNull(Duration.ofSeconds(30)));
         Thread.sleep(8000); // Allow app to fully load (YouTube can be slow on cold start)
 
         // Handle permission popup
@@ -68,7 +76,7 @@ public class YouTubeTest {
         };
         for (By locator : searchLocators) {
             try {
-                wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
+                clickWhenClickable(wait, locator);
                 searchOpened = true;
                 break;
             } catch (Exception e) {

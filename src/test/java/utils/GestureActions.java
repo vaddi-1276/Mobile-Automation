@@ -8,6 +8,7 @@ import org.openqa.selenium.interactions.Sequence;
 
 import java.time.Duration;
 import java.util.Collections;
+import java.util.Objects;
 
 /**
  * Reusable gesture actions for mobile automation (swipe, scroll, tap, long press).
@@ -15,6 +16,7 @@ import java.util.Collections;
 public class GestureActions {
 
     private static final String FINGER = "finger";
+    private static final Duration DURATION_ZERO = Duration.ZERO;
     private static final Duration GESTURE_DURATION = Duration.ofMillis(500);
 
     private final AppiumDriver driver;
@@ -29,9 +31,9 @@ public class GestureActions {
     public void swipe(int startX, int startY, int endX, int endY) {
         PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, FINGER);
         Sequence swipe = new Sequence(finger, 1)
-                .addAction(finger.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), startX, startY))
+                .addAction(finger.createPointerMove(Objects.requireNonNull(DURATION_ZERO), PointerInput.Origin.viewport(), startX, startY))
                 .addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))
-                .addAction(finger.createPointerMove(GESTURE_DURATION, PointerInput.Origin.viewport(), endX, endY))
+                .addAction(finger.createPointerMove(Objects.requireNonNull(GESTURE_DURATION), PointerInput.Origin.viewport(), endX, endY))
                 .addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
         driver.perform(Collections.singletonList(swipe));
     }
@@ -106,7 +108,7 @@ public class GestureActions {
     public void tap(int x, int y) {
         PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, FINGER);
         Sequence tap = new Sequence(finger, 1)
-                .addAction(finger.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), x, y))
+                .addAction(finger.createPointerMove(Objects.requireNonNull(DURATION_ZERO), PointerInput.Origin.viewport(), x, y))
                 .addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))
                 .addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
         driver.perform(Collections.singletonList(tap));
@@ -125,11 +127,12 @@ public class GestureActions {
      * Long press at coordinates.
      */
     public void longPress(int x, int y, Duration holdDuration) {
+        Duration hold = Objects.requireNonNull(holdDuration, "holdDuration");
         PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, FINGER);
         Sequence longPress = new Sequence(finger, 1)
-                .addAction(finger.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), x, y))
+                .addAction(finger.createPointerMove(Objects.requireNonNull(DURATION_ZERO), PointerInput.Origin.viewport(), x, y))
                 .addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))
-                .addAction(finger.createPointerMove(holdDuration, PointerInput.Origin.viewport(), x, y))
+                .addAction(finger.createPointerMove(Objects.requireNonNull(hold), PointerInput.Origin.viewport(), x, y))
                 .addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
         driver.perform(Collections.singletonList(longPress));
     }
@@ -140,7 +143,7 @@ public class GestureActions {
     public void longPress(WebElement element) {
         int x = element.getLocation().getX() + element.getSize().getWidth() / 2;
         int y = element.getLocation().getY() + element.getSize().getHeight() / 2;
-        longPress(x, y, Duration.ofMillis(1500));
+        longPress(x, y, Objects.requireNonNull(Duration.ofMillis(1500)));
     }
 
     /**
